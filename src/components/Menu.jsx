@@ -3,8 +3,18 @@ import { Link } from 'react-router-dom';
 import { GiOverkill } from "react-icons/gi";
 import mainlogo from '../images/league-logo.jpg'
 import { FaUserAlt } from "react-icons/fa";
-
+import { useDispatch } from 'react-redux';
+import { changeRegion } from '../actions/region-action';
 export const Menu = () => {
+
+
+    const dispatch = useDispatch();
+    const handleChange = (e) => {
+        const selectedRegion = e.target.value;
+        console.log(e.target.value);
+        dispatch(changeRegion(selectedRegion));
+    }
+
     return (
         <div>
 
@@ -22,9 +32,10 @@ export const Menu = () => {
                 </div>
             </div>
 
-            <select className="select-region">
-                <option value="North America" name="na1">North America</option>
-                <option value="South Korea" name="kr">South Korea</option>
+            <select className="select-region" onChange={handleChange}>
+                <option value="" name="">Select Region</option>
+                <option value="na1" name="na1">North America</option>
+                <option value="kr">South Korea</option>
             </select>
 
             <FaUserAlt className="user-info" />

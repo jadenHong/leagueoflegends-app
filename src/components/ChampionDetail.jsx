@@ -29,7 +29,7 @@ export const ChampionDetail = () => {
             const data = await response.json();
             setSkins(data.data[name].skins)
         })();
-    }, [])
+    }, [name])
     const style = {
         width: '200px',
         height: '200px',

@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { API, API_BASE } from '../config/index';
+import { API } from '../config/index';
 
 export const Champions = () => {
     const [champs, setChamps] = useState();
 
     useEffect(() => {
         getData();
-        console.log(champs)
     }, []);
 
     const getData = async () => {

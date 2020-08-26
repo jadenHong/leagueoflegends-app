@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { SiRiotgames } from "react-icons/si";
 import { AiFillGithub } from "react-icons/ai";
 import { FaFacebookSquare } from "react-icons/fa";

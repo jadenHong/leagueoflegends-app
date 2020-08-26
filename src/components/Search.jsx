@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { FaSearch } from "react-icons/fa";
 import { API } from '../config';
+import { useSelector } from 'react-redux';
 
 export const Search = () => {
+    const region = useSelector(state => state.regionStore);
     const [summonerID, setSummonerID] = useState('');
 
     const handleChange = (e) => {
@@ -12,7 +14,7 @@ export const Search = () => {
     // https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/
     const handleClick = async () => {
         if (summonerID.length > 0) {
-            const response = await fetch(`${API.GET_SUMMONER_BY_NAME}/${summonerID}?region=kr`);
+            const response = await fetch(`${API.GET_SUMMONER_BY_NAME}/${summonerID}?region=${region}`);
             const data = await response.json();
             console.log(data);
         }
@@ -21,8 +23,8 @@ export const Search = () => {
     return (
         <div className="wrap">
             <div className="search">
-                <input type="text" className="summoner-id" placeholder="Summoner ID" onChange={e => setSummonerID(e.target.value)} value={summonerID} />
-                <input type="text" className="searchTerm" placeholder="What are you looking for?" onChange={handleChange} />
+                {/* <input type="text" className="summoner-id" placeholder="Enter the Summoner's ID" onChange={e => setSummonerID(e.target.value)} value={summonerID} /> */}
+                <input type="text" className="searchTerm" placeholder="Enter the Summoner's ID" onChange={handleChange} />
                 <button type="submit" className="searchButton" onClick={handleClick}>
                     <FaSearch />
                 </button>
