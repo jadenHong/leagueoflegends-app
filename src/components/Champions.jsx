@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { API_BASE, API } from '../config/index';
+import { API, API_BASE } from '../config/index';
 
 export const Champions = () => {
     const [champs, setChamps] = useState();
@@ -37,7 +37,7 @@ export const Champions = () => {
                     }}>
                         {/* http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aatrox_3.jpg 스킨 넣을때 */}
                         <h2>{data.name}</h2>
-                        <img src={`${API.GET_CHAMPIONS}${data.image.full}`} alt="images" />
+                        <img src={`${API.GET_CHAMPION_SQUARE_IMG}/${data.image.full}`} alt="images" />
                     </Link>
 
                 )

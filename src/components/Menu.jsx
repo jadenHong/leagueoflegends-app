@@ -7,10 +7,11 @@ import { FaUserAlt } from "react-icons/fa";
 export const Menu = () => {
     return (
         <div>
+
             <div className="nav-menu">
                 <div className="logo-title">
                     <GiOverkill />
-                    <h3>Leage of Legends</h3>
+                    <Link to="/" className="title"><h3>League of Legends</h3></Link>
                 </div>
                 <div className="navbar">
                     <ul>
@@ -20,7 +21,13 @@ export const Menu = () => {
                     </ul>
                 </div>
             </div>
-            <FaUserAlt />
+
+            <select className="select-region">
+                <option value="North America" name="na1">North America</option>
+                <option value="South Korea" name="kr">South Korea</option>
+            </select>
+
+            <FaUserAlt className="user-info" />
             <div className="logo-img">
                 <img src={mainlogo} alt="main-logo-img" />
             </div>
