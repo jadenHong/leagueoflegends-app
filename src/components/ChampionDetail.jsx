@@ -28,6 +28,7 @@ export const ChampionDetail = () => {
             const response = await fetch(`${API.GET_CHAMPIONS}/${name}.json`);
             const data = await response.json();
             setSkins(data.data[name].skins)
+
         })();
     }, [name])
     const style = {
@@ -45,7 +46,7 @@ export const ChampionDetail = () => {
             <h3>{desc}</h3>
             <h3>Skins</h3>
             <div>
-                {skins.map((skin, index) => <img key={index} src={`${API.GET_SKINS}${name}_${skin.num}.jpg`} alt={`${skin.name}`} style={style} />)}
+                {skins.map((skin, index) => <img key={index} src={`${API.GET_SKINS}/${name}_${skin.num}.jpg`} alt={`${skin.name}`} style={style} />)}
             </div>
         </div>
     )

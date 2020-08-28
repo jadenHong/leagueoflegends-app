@@ -5,3 +5,4 @@ export * from './Search';
 export * from './Footer';
 export * from './Champions';
 export * from './ChampionDetail';
+export * from './Ranks';

@@ -35,7 +35,16 @@ export const Menu = () => {
             <select className="select-region" onChange={handleChange}>
                 <option value="" name="">Select Region</option>
                 <option value="na1" name="na1">North America</option>
-                <option value="kr">South Korea</option>
+                <option value="kr">Korea</option>
+                <option value="jp1">Japan</option>
+                <option value="euw1">Europe West</option>
+                <option value="eun1">Europe Nordic East</option>
+                <option value="oc1">Oceania</option>
+                <option value="br1">Brazil</option>
+                <option value="ru">Russia</option>
+                <option value="tr1">Turkey</option>
+                <option value="la1">Latin North</option>
+                <option value="la2">Latin South</option>
             </select>
 
             <FaUserAlt className="user-info" />
