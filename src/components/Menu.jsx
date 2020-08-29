@@ -25,7 +25,7 @@ export const Menu = () => {
                 </div>
                 <div className="navbar">
                     <ul>
-                        <Link to="/"><li>Search</li></Link>
+                        <Link to="/search"><li>Search</li></Link>
                         <Link to="/champions"><li>Champions</li></Link>
                         <Link to="/ranks"><li>Ranks</li></Link>
                     </ul>

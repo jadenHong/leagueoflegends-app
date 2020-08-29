@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 export const Search = () => {
     const region = useSelector(state => state.regionStore);
     const [summonerID, setSummonerID] = useState('');
+    const [errorMsg, setErrorMsg] = useState(false);
     const [{ id, name, profileIconId, level }, setSummonerInfo] = useState({
         id: undefined,
         name: '',
@@ -35,14 +36,21 @@ export const Search = () => {
         if (summonerID.length > 0) {
             const response = await fetch(`${API.GET_SUMMONER_BY_NAME}/${summonerID}?region=${region}`);
             const data = await response.json();
-            console.log(data);
+            console.log(data.status);
             console.log('1');
-            setSummonerInfo({
-                id: data.id,
-                name: data.name,
-                profileIconId: data.profileIconId,
-                level: data.summonerLevel,
-            });
+            if (data.status === undefined) { // data를 뽑아오면 status 가 나타나지 않고 data가 없을경우에 data.status.status_code: 404 이런식으로 리턴 된다.
+                console.log('data 있음')
+                setErrorMsg(false)
+                setSummonerInfo({
+                    id: data.id,
+                    name: data.name,
+                    profileIconId: data.profileIconId,
+                    level: data.summonerLevel,
+                });
+            } else {
+                console.log('data 없음')
+                setErrorMsg(true);
+            }
         }
     }
 
@@ -50,7 +58,8 @@ export const Search = () => {
         if (id) {
             (async () => {
                 // const response2 = await fetch(`${API.GET_SUMMONER_DETAIL_BY_ID}/18DGpAfpkizFV_QeZruhnqFhjao8lcwqhzHKxbOcqfFRXA`)
-                const response2 = await fetch(`${API.GET_SUMMONER_DETAIL_BY_ID}/${id}`)
+                console.log(id);
+                const response2 = await fetch(`${API.GET_SUMMONER_DETAIL_BY_ID}/${id}?region=${region}`)
                 console.log('3');
                 const data2 = await response2.json();
                 console.log(data2);
@@ -68,11 +77,14 @@ export const Search = () => {
         }
     }, [id]);
 
-    const shouldRenderBody = name.length > 0 && tier.length > 0;
+    // const shouldRenderBody = name.length > 0 && tier.length > 0;
 
     return (
+
+
+
         <div className="wrap">
-            {console.log(id)}
+
             <div className="search">
                 {/* <input type="text" className="summoner-id" placeholder="Enter the Summoner's ID" onChange={e => setSummonerID(e.target.value)} value={summonerID} /> */}
                 <input type="text" className="searchTerm" placeholder="Enter the Summoner's ID" onChange={handleChange} />
@@ -80,23 +92,38 @@ export const Search = () => {
                     <FaSearch />
                 </button>
             </div>
-            <div className="summoner-info">
-                {
-                    shouldRenderBody &&
-                    <div>
-                        <img src={`${API.GET_PROFILEICON}/${profileIconId}.png`} alt="profileIcon" style={{ width: '100px', height: '100px', borderRadius: '10px' }} />
-                        <h2>{name}</h2>
-                        <h3>{level}</h3>
-                        <img src={require(`../images/ranked-emblems/${tier}.png`)} alt="tier-emblem" style={{ width: '100px', height: '100px' }} />
-                        <h3>{tier}</h3>
-                        <h3>{`Win: ${wins} losses: ${losses} Rate: ${Math.round(wins / (wins + losses) * 100)}%`}</h3>
-                        <h3>LP: {leaguePoints} LP</h3>
-                        <h3>{rank}</h3>
-                        <h3>{queueType}</h3>
-                    </div>
-                }
-            </div>
+
+
+            {!errorMsg ?
+                <div className="summoner-info">
+                    {
+                        name.length > 0 && tier.length > 0 &&
+                        <div>
+                            <img src={`${API.GET_PROFILEICON}/${profileIconId}.png`} alt="profileIcon" style={{ width: '100px', height: '100px', borderRadius: '10px' }} />
+                            <h2>{name}</h2>
+                            <h3>{level}</h3>
+                            <img src={require(`../images/ranked-emblems/${tier}.png`)} alt="tier-emblem" style={{ width: '100px', height: '100px' }} />
+                            <h3>{tier}</h3>
+                            <h3>{`Win: ${wins} losses: ${losses} Rate: ${Math.round(wins / (wins + losses) * 100)}%`}</h3>
+                            <h3>LP: {leaguePoints} LP</h3>
+                            <h3>{rank}</h3>
+                            <h3>{queueType}</h3>
+                        </div>
+                    }
+                </div>
+
+                :
+                <div>There is no summoner</div>
+            }
+
+
         </div>
+
+
+
+
+
+
     )
 }
 
@@ -215,3 +242,12 @@ export const Search = () => {
 //         </div>
 //     )
 // }
+
+
+
+
+
+
+
+
+

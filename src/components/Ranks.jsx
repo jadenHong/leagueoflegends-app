@@ -1,33 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { API, TIER, DIVISIONS, API_BASE } from '../config/index';
 import { useSelector } from 'react-redux';
-import ReactPaginate from 'react-paginate';
+import Paginator from 'react-hooks-paginator';
+import { Loading } from './Loading';
 
 export const Ranks = () => {
     const region = useSelector(state => state.regionStore);
     const [users, setUsers] = useState([]);
     const [URLs, setURLs] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    // const [currentPage, setCurrentPage] = useState(1);
-    const [postsPerPage] = useState(10);
-    const [btnClicked, setBtnClicked] = useState(false);
-    const [pageState, setPageState] = useState({
-        offset: 0,
-        tableData: [],
-        orgtableData: [],
-        perPage: 10,
-        currentPage: 0,
-    })
+
+    const [offset, setOffset] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [currentData, setCurrentData] = useState([]);
+    const pageLimit = 10;
 
     useEffect(() => {
         getURLs();
     }, [])
 
     useEffect(() => {
-        region &&
+        region !== '' &&
             getData();
-
+        console.log('getData');
     }, [region]);
+
+
+
+    useEffect(() => {
+        setCurrentData(users.slice(offset, offset + pageLimit));
+    }, [offset, users])
+
+
 
     const getURLs = () => {
         const URLs = [];
@@ -75,93 +79,68 @@ export const Ranks = () => {
 
             // console.log(loadData);
         }
-        console.log('data-->' + JSON.stringify(loadData))
-        var slice = loadData.slice(pageState.offset, pageState.offset + pageState.perPage)
-        console.log(loadData);
-
-        setPageState({
-            pageCount: Math.ceil(loadData.length / pageState.perPage),
-            orgtableData: loadData,
-            tableData: slice,
-        })
 
         setUsers(loadData);
+        setIsLoading(true);
 
     }
-    // useEffect(() => {
-    //     loadMoreData();
-    // }, [btnClicked])
 
-    const handlePageClick = (e) => {
-        const selectedPage = e.selected;
-        const offset = selectedPage * pageState.perPage;
 
-        setPageState({
-            currentPage: selectedPage,
-            offset: offset
-        });
-        setBtnClicked(true);
-    }
-
-    // const loadMoreData = () => {
-    //     const data = pageState.orgtableData;
-    //     const slice = data.slice(pageState.offset, pageState.offset + pageState.perPage);
-    //     setPageState({
-    //         pageCount: Math.ceil(data.length / pageState.perPage),
-    //         tableData: slice,
-    //     })
-    // }
-
+    const a = false;
     return (
         <>
-            {console.log(users)}
 
-            <div>
-                <table border='1'>
-                    <thead>
-                        <th>Name</th>
-                        <th>Points</th>
-                        <th>Tier</th>
-                        <th>wins</th>
-                        <th>losses</th>
-                    </thead>
+            {
+                region && (
 
-                    <tbody>
-                        {
+                    isLoading ?
 
-                            pageState.tableData.map((user, index) =>
-                                <tr key={index} style={{ padding: '1rem', border: '1px black solid' }}>
-                                    <td>{user.summonerName}</td>
-                                    <td>{user.leaguePoints}</td>
-                                    <td>{user.tier}</td>
-                                    <td>{user.wins}</td>
-                                    <td>{user.losses}</td>
-                                </tr>)
+                        <div>
+                            <table border='1'>
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Points</th>
+                                        <th>Tier</th>
+                                        <th>wins</th>
+                                        <th>losses</th>
+                                    </tr>
+                                </thead>
 
-                        }
-                    </tbody>
-                </table>
-                <ReactPaginate
-                    previousLabel={'prev'}
-                    nextLabel={'next'}
-                    breakLabel={'...'}
-                    breakClassName={'break-me'}
-                    pageCount={pageState.pageCount}
-                    marginPagesDisplayed={2}
-                    pageRangeDisplayed={5}
-                    onPageChange={() => handlePageClick()}
-                    containerClassName={'pagination'}
-                    subContainerClassName={'pages pagination'}
-                    activeClassName={'active'}
-                />
-            </div>
+                                <tbody>
+                                    {
 
+                                        currentData.map((user, index) =>
+                                            <tr key={index}>
+                                                <td>{user.summonerName}</td>
+                                                <td>{user.leaguePoints}</td>
+                                                <td>{user.tier}</td>
+                                                <td>{user.wins}</td>
+                                                <td>{user.losses}</td>
+                                            </tr>)
+
+                                    }
+                                </tbody>
+                            </table>
+                            <Paginator
+                                totalRecords={users.length}
+                                pageLimit={pageLimit}
+                                pageNeighbours={2}
+                                setOffset={setOffset}
+                                currentPage={currentPage}
+                                setCurrentPage={setCurrentPage}
+                            />
+                        </div>
+                        :
+                        <Loading />
+
+                )
+
+            }
         </>
+
     )
 }
-
-
-
 
 
 
@@ -464,156 +443,3 @@ export const Ranks = () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-// import React, { useState, useEffect } from 'react';
-// import { API, TIER, DIVISIONS, API_BASE } from '../config/index';
-// import { useSelector } from 'react-redux';
-// import ReactPaginate from 'react-paginate';
-
-// export const Ranks = () => {
-//     const region = useSelector(state => state.regionStore);
-//     const [users, setUsers] = useState([]);
-//     const [URLs, setURLs] = useState([]);
-//     const [isLoading, setIsLoading] = useState(false);
-//     // const [currentPage, setCurrentPage] = useState(1);
-//     const [postsPerPage] = useState(10);
-//     const [pageState, setPageState] = useState({
-//         offset: 0,
-//         tableData: [],
-//         orgtableData: [],
-//         perPage: 10,
-//         currentPage: 0,
-//     })
-
-//     useEffect(() => {
-//         getURLs();
-//     }, [])
-
-//     useEffect(() => {
-//         region &&
-//             getData();
-
-//     }, [region]);
-
-//     const getURLs = () => {
-//         const URLs = [];
-//         const highTiers = [TIER.CHALLENGER, TIER.GRANDMASTER, TIER.MASTER];
-//         for (const tier of Object.values(TIER)) {
-//             for (const [i, division] of DIVISIONS.entries()) {
-//                 if (highTiers.includes(tier) && i > 0) continue;
-//                 const url = `${API_BASE}/${tier}/data?division=${division}&region=${region}`;
-//                 URLs.push(url);
-//             }
-//         }
-//         setURLs(URLs);
-//     }
-//     // challenger : 2페이지, grandmaster: 4페이지, master: 9페이지 까지 있음
-//     const getData = async () => {
-//         const loadData = [];
-//         for (let i = 0; i < 3; i++) {
-//             if (i === 0) {
-//                 for (let j = 1; j < 3; j++) {
-//                     const response = await fetch(`${URLs[i]}${region}&tierPage=${j}`);
-//                     const data = await response.json();
-//                     loadData.push(...data);
-//                     // console.log(data);
-//                     // setUsers([...users, ...data]);
-
-//                 }
-
-//             } else if (i === 1) {
-//                 for (let j = 1; j < 5; j++) {
-//                     const response = await fetch(`${URLs[i]}${region}&tierPage=${j}`);
-//                     const data = await response.json();
-//                     loadData.push(...data);
-//                     // console.log(data);
-//                     // setUsers([...users, ...data]);
-//                 }
-//             } else if (i === 2) {
-//                 for (let j = 1; j < 10; j++) {
-//                     const response = await fetch(`${URLs[i]}${region}&tierPage=${j}`);
-//                     const data = await response.json();
-//                     loadData.push(...data);
-//                     // console.log(data);
-//                     // setUsers([...users, ...data]);
-//                 }
-//             }
-
-//             // console.log(loadData);
-//         }
-//         console.log(loadData);
-//         setPageState({
-//             pageCount: Math.ceil(loadData.length / pageState.perPage),
-//             orgtableData: loadData,
-//             tableData: loadData,
-//         })
-//         setUsers(loadData);
-
-//         /*  // server test
-//                 const response = await fetch('http://localhost:7779/MASTER/test');
-//                 const data = await response.text();
-//                 console.log(data) */
-
-
-//     }
-
-//     const handlePageClick = () => {
-
-//     }
-
-//     return (
-//         <>
-//             {console.log(users)}
-
-//             <div>
-//                 <table border='1'>
-//                     <thead>
-//                         <th>Name</th>
-//                         <th>Points</th>
-//                         <th>Tier</th>
-//                         <th>wins</th>
-//                         <th>losses</th>
-//                     </thead>
-
-//                     <tbody>
-//                         {
-
-//                             users.slice(0, 50).map((user, index) =>
-//                                 <tr key={index} style={{ padding: '1rem', border: '1px black solid' }}>
-//                                     <td>{user.summonerName}</td>
-//                                     <td>{user.leaguePoints}</td>
-//                                     <td>{user.tier}</td>
-//                                     <td>{user.wins}</td>
-//                                     <td>{user.losses}</td>
-//                                 </tr>)
-
-//                         }
-//                     </tbody>
-//                 </table>
-//                 <ReactPaginate
-//                     previousLabel={'previous'}
-//                     nextLabel={'next'}
-//                     breakLabel={'...'}
-//                     breakClassName={'break-me'}
-//                     pageCount={pageState.pageCount}
-//                     marginPagesDisplayed={2}
-//                     pageRangeDisplayed={5}
-//                     onPageChange={handlePageClick()}
-//                     containerClassName={'pagination'}
-//                     subContainerClassName={'pages pagination'}
-//                     activeClassName={'active'}
-//                 />
-//             </div>
-
-//         </>
-//     )
-// }
