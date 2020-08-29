@@ -8,6 +8,8 @@ export const API = {
     GET_SKINS: `http://ddragon.leagueoflegends.com/cdn/img/champion/splash`,
     GET_RANKS: `${API_BASE}/lol/league-exp/v4/entries/RANKED_SOLO_5x5`,
     GET_PROFILEICON: `http://ddragon.leagueoflegends.com/cdn/10.16.1/img/profileicon`,
+    GET_MATCH_ID: `${API_BASE}/lol/match/v4/matchlists/by-account`,
+    GET_MATCH_DETAILS: `${API_BASE}/lol/match/v4/matches`,
 }
 
 export const TIER = {
