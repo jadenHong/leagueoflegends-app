@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, BrowserRouter } from 'react-router-dom';
 import { Menu, Footer } from '.';
 
-import { Main, Search, Champions, ChampionDetail, Ranks } from '.';
+import { Main, Search, Champions, ChampionDetail, Ranks, UserInfo } from '.';
 
 export default () => {
     return (
@@ -13,6 +13,7 @@ export default () => {
             <Route path="/champions" component={Champions} />
             <Route path="/champion/detail/:name" component={ChampionDetail} />
             <Route path="/ranks" component={Ranks} />
+            <Route path="/userInfo" component={UserInfo} />
             <Footer />
         </BrowserRouter>
     )

@@ -7,3 +7,4 @@ export * from './Champions';
 export * from './ChampionDetail';
 export * from './Ranks';
 export * from './Loading';
+export * from './UserInfo';

@@ -1,26 +1,63 @@
-<div className="wrap">
-    {console.log(id)}
-    <div className="search">
-        {/* <input type="text" className="summoner-id" placeholder="Enter the Summoner's ID" onChange={e => setSummonerID(e.target.value)} value={summonerID} /> */}
-        <input type="text" className="searchTerm" placeholder="Enter the Summoner's ID" onChange={handleChange} />
-        <button type="submit" className="searchButton" onClick={handleClick}>
-            <FaSearch />
-        </button>
-    </div>
-    <div className="summoner-info">
-        {
-            shouldRenderBody &&
+import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { API } from '../config';
+import { useSelector } from 'react-redux';
+
+export const UserInfo = () => {
+    const region = useSelector(state => state.regionStore);
+    const location = useLocation();
+    console.log(location.state)
+    const [matchesInfo, setMatchesInfo] = useState([]);
+    const [loaded, setLoaded] = useState(false);
+    const [...gameIds] = location.state.gameIdInfo;
+    const matchesData = [];
+
+    useEffect(() => {
+        (
+            async () => {
+                for (let i = 0; i < 1; i++) {
+                    const response = await fetch(`${API.GET_MATCH_DETAILS}/${gameIds[i]}?region=${region}`);
+                    const data = await response.json();
+                    // console.log(data);
+                    // setMatchesInfo([
+                    //     ...matchesInfo,
+                    //     ...data,
+                    // ]);
+                    matchesData.push(data);
+
+                }
+                setMatchesInfo(matchesData);
+                setLoaded(true);
+            }
+        )();
+    }, [])
+    useEffect(() => {
+        console.log(matchesInfo[0])
+        // setLoaded(false)
+    }, [matchesInfo])
+    // const { gameDuration, gameMode, participantIdentities, participants, teams } = matchesInfo;
+    return (
+        <>
             <div>
-                <img src={`${API.GET_PROFILEICON}/${profileIconId}.png`} alt="profileIcon" style={{ width: '100px', height: '100px', borderRadius: '10px' }} />
-                <h2>{name}</h2>
-                <h3>{level}</h3>
-                <img src={require(`../images/ranked-emblems/${tier}.png`)} alt="tier-emblem" style={{ width: '100px', height: '100px' }} />
-                <h3>{tier}</h3>
-                <h3>{`Win: ${wins} losses: ${losses} Rate: ${Math.round(wins / (wins + losses) * 100)}%`}</h3>
-                <h3>LP: {leaguePoints} LP</h3>
-                <h3>{rank}</h3>
-                <h3>{queueType}</h3>
+                <h2>user information</h2>
+                {
+                    loaded &&
+
+                    <div>
+                        {matchesInfo[0].participantIdentities.map((data) => {
+                            return (
+
+                                <div>{data.player.summonerName}</div>
+
+                            )
+
+                        })}
+                    </div>
+
+                }
             </div>
-        }
-    </div>
-</div>
+
+        </>
+    )
+}

@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FaSearch } from "react-icons/fa";
 import { API } from '../config';
 import { useSelector } from 'react-redux';
 import { Loading } from './Loading';
+import { Link } from 'react-router-dom';
 
 export const Search = () => {
     const region = useSelector(state => state.regionStore);
@@ -26,7 +27,7 @@ export const Search = () => {
 
     });
     const gameId = [];
-    const [matched, setMatched] = useState(false);
+    const [gameIdInfo, setGameIdInfo] = useState([]);
 
     const handleChange = (e) => {
         const newInput = e.target.value;
@@ -101,27 +102,33 @@ export const Search = () => {
                         gameId.push(matches[i].gameId);
                     }
                     console.log(gameId);
-                    setMatched(true);
+                    setGameIdInfo([...gameId]);
                 }
             )();
         }
     }, [tier]);
 
     useEffect(() => {
-        console.log('matched: ' + matched)
-        // 여기로 push가 다된 gameId 가 들어오지 않음......
-        console.log(gameId)
-        if (matched) {
+        console.log('gameIdInfo: ' + gameIdInfo)
+        if (gameIdInfo[0]) {
             (
                 async () => {
                     console.log('gameId: ' + gameId);
-                    const response = await fetch(`${API.GET_MATCH_DETAILS}/${gameId}?region=${region}`);
+                    const response = await fetch(`${API.GET_MATCH_DETAILS}/${gameIdInfo[1]}?region=${region}`);
                     const data = await response.json();
                     console.log(data);
                 }
             )();
         }
-    }, [matched])
+    }, [gameIdInfo]);
+
+    // input 에 focusing useRef() 사용
+    const focusRef = useRef();
+    useEffect(() => {
+        focusRef.current.focus();
+    }, [])
+
+
 
     return (
 
@@ -131,7 +138,12 @@ export const Search = () => {
 
             <div className="search">
                 {/* <input type="text" className="summoner-id" placeholder="Enter the Summoner's ID" onChange={e => setSummonerID(e.target.value)} value={summonerID} /> */}
-                <input type="text" className="searchTerm" placeholder="Enter the Summoner's ID" onChange={handleChange} />
+                <input type="text" className="searchTerm" placeholder="Enter the Summoner's ID" onChange={handleChange} onKeyPress={
+                    (e) => {
+                        if (e.key === 'Enter')
+                            handleClick();
+                    }
+                } ref={focusRef} />
                 <button type="submit" className="searchButton" onClick={handleClick}>
                     <FaSearch />
                 </button>
@@ -148,8 +160,20 @@ export const Search = () => {
                             {
                                 name.length > 0 && tier.length > 0 &&
                                 <div>
-                                    <img src={`${API.GET_PROFILEICON}/${profileIconId}.png`} alt="profileIcon" style={{ width: '100px', height: '100px', borderRadius: '10px' }} />
-                                    <h2>{name}</h2>
+                                    <Link to={
+                                        {
+                                            pathname: '/userInfo',
+                                            state: {
+                                                gameIdInfo: gameIdInfo,
+                                                accountId: accountId,
+                                            }
+                                        }
+                                    }
+
+                                    >
+                                        <img src={`${API.GET_PROFILEICON}/${profileIconId}.png`} alt="profileIcon" style={{ width: '100px', height: '100px', borderRadius: '10px' }} />
+                                        <h2>{name}</h2>
+                                    </Link>
                                     <h3>{level}</h3>
                                     <img src={require(`../images/ranked-emblems/${tier}.png`)} alt="tier-emblem" style={{ width: '100px', height: '100px' }} />
                                     <h3>{tier}</h3>

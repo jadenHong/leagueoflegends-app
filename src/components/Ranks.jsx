@@ -22,6 +22,7 @@ export const Ranks = () => {
     useEffect(() => {
         region !== '' &&
             getData();
+        setIsLoading(false)
         console.log('getData');
     }, [region]);
 
@@ -82,11 +83,9 @@ export const Ranks = () => {
 
         setUsers(loadData);
         setIsLoading(true);
-
     }
 
 
-    const a = false;
     return (
         <>
 
@@ -130,6 +129,7 @@ export const Ranks = () => {
                                 currentPage={currentPage}
                                 setCurrentPage={setCurrentPage}
                             />
+
                         </div>
                         :
                         <Loading />
