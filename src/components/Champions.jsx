@@ -13,7 +13,7 @@ export const Champions = () => {
         const response = await fetch(`http://localhost:7779/champs`);
         const data = await response.json();
         console.log(data);
-        setChamps(Object.values(data))
+        setChamps(Object.values(data))    // 객체를 배열처럼 사용가능
         console.log(champs);
     }
 

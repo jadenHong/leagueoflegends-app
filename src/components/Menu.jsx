@@ -4,7 +4,7 @@ import { GiOverkill } from "react-icons/gi";
 import mainlogo from '../images/league-logo.jpg'
 import { FaUserAlt } from "react-icons/fa";
 import { useDispatch } from 'react-redux';
-import { changeRegion } from '../actions/region-action';
+import { changeRegion } from '../actions';
 export const Menu = () => {
 
 

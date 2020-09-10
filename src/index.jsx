@@ -5,9 +5,10 @@ import './styles/index.scss';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';
-import rootReducer from './reducers/region-reducer.jsx';
+import promise from 'redux-promise-middleware';
+import rootReducer from './reducers/index';
 
-const store = createStore(rootReducer, applyMiddleware(logger));
+const store = createStore(rootReducer, applyMiddleware(promise, logger));
 
 ReactDOM.render(
   <Provider store={store}>

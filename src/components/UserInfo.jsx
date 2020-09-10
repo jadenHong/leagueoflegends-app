@@ -8,19 +8,23 @@ export const UserInfo = () => {
     const region = useSelector(state => state.regionStore);
     const location = useLocation();
     console.log(location.state)
+    const accountId = location.state.accountId;
+    console.log(accountId)
     const [matchesInfo, setMatchesInfo] = useState([]);
     const [loaded, setLoaded] = useState(false);
     const [...gameIds] = location.state.gameIdInfo;
     const matchesData = [];
+    const [userInfo, setUserInfo] = useState();
+    const [result, setResult] = useState();
 
     useEffect(() => {
         (
             async () => {
-                for (let i = 0; i < 1; i++) {
+                for (let i = 0; i < 10; i++) {
                     const response = await fetch(`${API.GET_MATCH_DETAILS}/${gameIds[i]}?region=${region}`);
                     const data = await response.json();
                     // console.log(data);
-                    // setMatchesInfo([
+                    // setMatchesInfo([ 
                     //     ...matchesInfo,
                     //     ...data,
                     // ]);
@@ -33,28 +37,58 @@ export const UserInfo = () => {
         )();
     }, [])
     useEffect(() => {
-        console.log(matchesInfo[0])
+        if (loaded) {
+            console.log('matchesinfo check')
+            console.log(matchesInfo)
+
+
+
+
+            const participantId = matchesInfo.map((data) => data.participantIdentities.filter((data) => data.player.accountId === accountId)[0].participantId);
+            console.log(participantId);
+            const summonorMathDetail = matchesInfo.map((data, index) => data.participants.filter((data) => data.participantId === participantId[index])[0])
+            console.log(summonorMathDetail);
+            const playResult = summonorMathDetail.map((data) => data.stats.win)
+            console.log(playResult);
+            setResult(playResult);
+
+        }
+        // setUserInfo(matchesInfo[0].participantIdentities.filter(((data) => data.player.accountId === accountId && <div>{data.player.summonerName}</div>)))
         // setLoaded(false)
-    }, [matchesInfo])
+    }, [matchesInfo, loaded])
     // const { gameDuration, gameMode, participantIdentities, participants, teams } = matchesInfo;
+
+
+
     return (
         <>
             <div>
                 <h2>user information</h2>
                 {
-                    loaded &&
+                    result && loaded &&
 
                     <div>
-                        {matchesInfo[0].participantIdentities.map((data) => {
-                            return (
+                        <div>
+                            {/* {console.log(matchesInfo[0])} */}
+                            {result.map((data, index) => {
+                                return (
+                                    <div key={index}>{data ? '승리' : '패배'}</div>
+                                )
+                            })}
 
-                                <div>{data.player.summonerName}</div>
+                        </div>
 
-                            )
+                        <div>
+                            {matchesInfo[0].participantIdentities.map((data, index) => {
+                                return (
 
-                        })}
+                                    <div key={index}>{data.player.summonerName}</div>
+
+                                )
+
+                            })}
+                        </div>
                     </div>
-
                 }
             </div>
 
