@@ -6,7 +6,6 @@ const champsInitialState = {
     isLoading: false,
     errorMessage: '',
 }
-
 export const champsReducer = (state = champsInitialState, action) => {
     switch (action.type) {
         case `${FETCH_CHAMPS}_PENDING`: {
@@ -20,7 +19,7 @@ export const champsReducer = (state = champsInitialState, action) => {
             return {
                 ...state,
                 isLoading: false,
-                champs: action.champsData,
+                champs: action.payload,
                 errorMessage: '',
             }
         }
@@ -28,7 +27,7 @@ export const champsReducer = (state = champsInitialState, action) => {
             return {
                 ...state,
                 isLoading: false,
-                errorMessage: action.champsData,
+                errorMessage: action.payload,
             }
         }
         default: return state;

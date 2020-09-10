@@ -12,7 +12,7 @@ export const changeRegion = (region) => {
 
 export const fetchChamps = () => ({
     type: FETCH_CHAMPS,
-    champsData: new Promise(async (resolve, reject) => {
+    payload: new Promise(async (resolve, reject) => {
         try {
             const data = await (await fetch(`http://localhost:7779/champs`)).json();
             console.log(data);
