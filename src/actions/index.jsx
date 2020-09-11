@@ -2,6 +2,7 @@
 
 export const CHANGE_REGION = 'CHANGE_REGION';
 export const FETCH_CHAMPS = 'FETCH_CHAMPS';
+export const FETCH_SPELLS = 'FETCH_SPELLS';
 
 export const changeRegion = (region) => {
     return {
@@ -22,3 +23,16 @@ export const fetchChamps = () => ({
         }
     })
 });
+
+export const fetchSpells = () => ({
+    type: FETCH_SPELLS,
+    payload: new Promise(async (resolve, reject) => {
+        try {
+            const data = await (await fetch(`http://localhost:7779/spells`)).json();
+            console.log(data);
+            resolve(data)
+        } catch (error) {
+            reject(error.message);
+        }
+    })
+})
