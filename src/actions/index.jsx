@@ -3,6 +3,7 @@
 export const CHANGE_REGION = 'CHANGE_REGION';
 export const FETCH_CHAMPS = 'FETCH_CHAMPS';
 export const FETCH_SPELLS = 'FETCH_SPELLS';
+export const FETCH_RUNES = 'FETCH_RUNES';
 
 export const changeRegion = (region) => {
     return {
@@ -30,7 +31,20 @@ export const fetchSpells = () => ({
         try {
             const data = await (await fetch(`http://localhost:7779/spells`)).json();
             console.log(data);
-            resolve(data)
+            resolve(data);
+        } catch (error) {
+            reject(error.message);
+        }
+    })
+});
+
+export const fetchRunes = () => ({
+    type: FETCH_RUNES,
+    payload: new Promise(async (resolve, reject) => {
+        try {
+            const data = await (await fetch('http://localhost:7779/runes')).json();
+            console.log(data);
+            resolve(data);
         } catch (error) {
             reject(error.message);
         }

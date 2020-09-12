@@ -8,3 +8,6 @@ export * from './ChampionDetail';
 export * from './Ranks';
 export * from './Loading';
 export * from './UserInfo';
+export * from './UserMatchHistory';
+export * from './UserMasteries';
+export * from './UserInGame';
