@@ -15,7 +15,9 @@ export const UserMasteries = () => {
     const [masteryData, setMasteryData] = useState();
     const [allChampsData, setAllChampsData] = useState();
     const [champId, setChampId] = useState();
-
+    const [masteryChamps, setMasteryChamps] = useState();
+    const masteryArr = [];
+    const [masteryLastInfo, setMasteryLastInfo] = useState();
     useEffect(() => {
         (
             async () => {
@@ -44,30 +46,92 @@ export const UserMasteries = () => {
             console.log(allChampsData)
             setChampId(masteryData.map((data) => data.championId));
 
-            allChampsData.map((id) => {
-                const obj = {};
-                for (let value in id.key) {
-                
-                }
-                return obj;
-            }
-            )
         }
-    }, [masteryData])
+    }, [masteryData]);
 
-    // useEffect(() => {
-    //     if (allChampsData) {
-    //         allChampsData.map((id) =>
-    //             // const obj = {};
-    //             console.log(Object.entries(id.championId))
-    //         )
-    //     }
-    // }, [allChampsData])
+    useEffect(() => {
+        if (champId) {
+            let arr = [];
+
+            // champId.map((data) => {
+            //     const obj = {};
+            //     for (let [key, value] of Object.entries(allChampsData)) {
+            //         // console.log(value)
+            //         obj[key] = allChampsData.find((data) => data === Number(value.key));
+            //     }
+
+            //     // setMasteryChamps(arr);
+            //     arr.push(obj);
+            // })
+            // console.log(arr)
+
+
+            champId.map((data) => {
+                const obj = {};
+                for (let value of allChampsData) {
+
+                    if (data === Number(value.key)) {
+                        arr.push({
+                            id: value.id,
+                            name: value.name,
+                        });
+                    }
+                }
+
+                return setMasteryChamps(arr);
+            })
+
+            //     champId.map((data) => {
+
+            //         for (let value of allChampsData) {
+
+            //             if (data === Number(value.key)) {
+            //                 arr.push(value.id);
+            //             }
+            //         }
+            //         setMasteryChamps(arr);
+            //     })
+        }
+    }, [champId])
+
+    useEffect(() => {
+        console.log(masteryChamps)
+        if (masteryChamps) {
+            for (let i = 0; i < masteryChamps.length; i++) {
+                masteryArr.push({
+                    championId: masteryChamps[i].id,
+                    championName: masteryChamps[i].name,
+                    championLevel: masteryData[i].championLevel,
+                    championPoints: masteryData[i].championPoints,
+                    lastPlayTime: masteryData[i].lastPlayTime,
+                })
+            }
+            console.log(masteryArr);
+            setMasteryLastInfo(masteryArr);
+        }
+
+    }, [masteryChamps])
 
     return (
         <>
-            {console.log(champId)}
             <h2>user masteries page</h2>
+            <div>
+                {
+                    masteryLastInfo &&
+                    masteryLastInfo.map((data, index) => {
+                        return (
+                            <div key={index}>
+                                <img src={`${API.GET_CHAMPION_SQUARE_IMG}/${data.championId}.png`} alt="champImage" />
+                                <span>Name: {data.championName}</span>
+                                <span> Level: {data.championLevel}</span>
+                                <span> Points: {data.championPoints}</span>
+
+
+                            </div>
+                        )
+                    })
+                }
+            </div>
         </>
     )
 }

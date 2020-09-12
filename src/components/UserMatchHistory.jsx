@@ -36,7 +36,7 @@ export const UserMatchHistory = () => {
     useEffect(() => {
         (
             async () => {
-                for (let i = 0; i < 10; i++) {
+                for (let i = 0; i < 20; i++) {
                     // server 측에 path 가 '/' 이곳으로 들어와서 프록시 서버를 통해서 정보를 호출한다.
                     const response = await fetch(`${API.GET_MATCH_DETAILS}/${gameIds[i]}?region=${region}`);
                     const data = await response.json();
