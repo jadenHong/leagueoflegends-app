@@ -11,3 +11,4 @@ export * from './UserInfo';
 export * from './UserMatchHistory';
 export * from './UserMasteries';
 export * from './UserInGame';
+export * from './MatchedGameDetail';

@@ -1,0 +1,21 @@
+
+body{
+    background-color: #333333;
+}
+
+.champion{
+    display: inline-block;
+    margin: 4px;
+    
+    img{
+        border-radius: 10px;
+    }
+    h2{
+        font-size: 15px;
+        text-align: center;
+        color: rgb(243, 232, 232);
+    }
+}
+.champions{
+    text-align: center;
+}

@@ -1,7 +1,7 @@
 import { CHANGE_REGION } from '../actions';
 
 const initialState = {
-    region: '',
+    region: 'kr',
 }
 
 export const regionReducer = (state = initialState.region, action) => {

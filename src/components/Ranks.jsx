@@ -15,16 +15,19 @@ export const Ranks = () => {
     const [currentData, setCurrentData] = useState([]);
     const pageLimit = 10;
 
-    useEffect(() => {
-        getURLs();
-    }, [])
+
+
 
     useEffect(() => {
-        region !== '' &&
-            getData();
+        getURLs();
+    }, [region])
+
+    useEffect(() => {
+
+        getData();
         setIsLoading(false)
         console.log('getData');
-    }, [region]);
+    }, [URLs]);
 
 
 
@@ -38,31 +41,37 @@ export const Ranks = () => {
         const URLs = [];
         const highTiers = [TIER.CHALLENGER, TIER.GRANDMASTER, TIER.MASTER];
         for (const tier of Object.values(TIER)) {
+            console.log('url 가지러 옴')
             for (const [i, division] of DIVISIONS.entries()) {
                 if (highTiers.includes(tier) && i > 0) continue;
                 const url = `${API_BASE}/${tier}/data?division=${division}&region=${region}`;
                 URLs.push(url);
             }
         }
+        console.log(URLs)
         setURLs(URLs);
     }
     // challenger : 2페이지, grandmaster: 4페이지, master: 9페이지 까지 있음
     const getData = async () => {
+        console.log(URLs)
         const loadData = [];
         for (let i = 0; i < 3; i++) {
             if (i === 0) {
                 for (let j = 1; j < 3; j++) {
-                    const response = await fetch(`${URLs[i]}${region}&tierPage=${j}`);
+                    console.log(`${URLs[i]}&tierPage=${j}`)
+                    const response = await fetch(`${URLs[i]}&tierPage=${j}`);
+                    console.log(response)
                     const data = await response.json();
                     loadData.push(...data);
-                    // console.log(data);
+                    console.log(data);
+
                     // setUsers([...users, ...data]);
 
                 }
 
             } else if (i === 1) {
                 for (let j = 1; j < 5; j++) {
-                    const response = await fetch(`${URLs[i]}${region}&tierPage=${j}`);
+                    const response = await fetch(`${URLs[i]}&tierPage=${j}`);
                     const data = await response.json();
                     loadData.push(...data);
                     // console.log(data);
@@ -70,7 +79,7 @@ export const Ranks = () => {
                 }
             } else if (i === 2) {
                 for (let j = 1; j < 10; j++) {
-                    const response = await fetch(`${URLs[i]}${region}&tierPage=${j}`);
+                    const response = await fetch(`${URLs[i]}&tierPage=${j}`);
                     const data = await response.json();
                     loadData.push(...data);
                     // console.log(data);
@@ -80,7 +89,7 @@ export const Ranks = () => {
 
             // console.log(loadData);
         }
-
+        console.log(loadData);
         setUsers(loadData);
         setIsLoading(true);
     }
@@ -90,58 +99,57 @@ export const Ranks = () => {
         <>
 
             {
-                region && (
 
-                    isLoading ?
 
-                        <div>
-                            <table border='1'>
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Points</th>
-                                        <th>Tier</th>
-                                        <th>wins</th>
-                                        <th>losses</th>
-                                    </tr>
-                                </thead>
+                isLoading ?
 
-                                <tbody>
-                                    {
+                    <div>
+                        <table border='1'>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Points</th>
+                                    <th>Tier</th>
+                                    <th>wins</th>
+                                    <th>losses</th>
+                                </tr>
+                            </thead>
 
-                                        currentData.map((user, index) =>
-                                            <tr key={index}>
-                                                <td>{user.summonerName}</td>
-                                                <td>{user.leaguePoints}</td>
-                                                <td>{user.tier}</td>
-                                                <td>{user.wins}</td>
-                                                <td>{user.losses}</td>
-                                            </tr>)
+                            <tbody>
+                                {
 
-                                    }
-                                </tbody>
-                            </table>
-                            <Paginator
-                                totalRecords={users.length}
-                                pageLimit={pageLimit}
-                                pageNeighbours={2}
-                                setOffset={setOffset}
-                                currentPage={currentPage}
-                                setCurrentPage={setCurrentPage}
-                            />
+                                    currentData.map((user, index) =>
+                                        <tr key={index}>
+                                            <td>{user.summonerName}</td>
+                                            <td>{user.leaguePoints}</td>
+                                            <td>{user.tier}</td>
+                                            <td>{user.wins}</td>
+                                            <td>{user.losses}</td>
+                                        </tr>)
 
-                        </div>
-                        :
-                        <Loading />
+                                }
+                            </tbody>
+                        </table>
+                        <Paginator
+                            totalRecords={users.length}
+                            pageLimit={pageLimit}
+                            pageNeighbours={2}
+                            setOffset={setOffset}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                        />
 
-                )
+                    </div>
+                    :
+                    <Loading />
+
+
 
             }
         </>
 
     )
 }
-
 
 
 
@@ -338,6 +346,8 @@ export const Ranks = () => {
 // import { API, TIER, DIVISIONS } from '../config/index';
 // import { useSelector } from 'react-redux';
 
+// import Paginator from 'react-hooks-paginator';
+
 // export const Ranks = () => {
 //     const ROWS_PER_PAGE = 50;
 //     const MAX_RETURN_NUM = 205;
@@ -371,6 +381,7 @@ export const Ranks = () => {
 //             for (const [i, division] of DIVISIONS.entries()) {
 //                 if (highTiers.includes(tier) && i > 0) continue;
 //                 const url = `${API.GET_RANKS}/${tier}/${division}?region=${region}`;
+//                 console.log(url)
 //                 URLs.push(url);
 //             }
 //         }
@@ -426,20 +437,3 @@ export const Ranks = () => {
 //         </>
 //     )
 // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

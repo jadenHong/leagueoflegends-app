@@ -4,8 +4,11 @@ import { API } from '../config';
 import { useSelector } from 'react-redux';
 import { Loading } from './Loading';
 import { Link } from 'react-router-dom';
+import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 export const Search = () => {
+    const USER_ID = 'user account id';
     const region = useSelector(state => state.regionStore);
     const [summonerID, setSummonerID] = useState('');
     const [errorMsg, setErrorMsg] = useState(false);
@@ -42,6 +45,10 @@ export const Search = () => {
             console.log(data);
             if (data.status === undefined) { // data를 뽑아오면 status 가 나타나지 않고 data가 없을경우에 data.status.status_code: 404 이런식으로 리턴 된다.
                 console.log('data 있음')
+                // 유저의 고유 아이디를 로컬스토리지에 저장
+                localStorage.setItem(USER_ID, data.id);
+                console.log(data.id);
+
                 setErrorMsg(false)
                 setSummonerInfo({
                     id: data.id,
@@ -56,6 +63,10 @@ export const Search = () => {
             }
         }
     }
+
+
+
+
 
     useEffect(() => {
         if (!errorMsg)
@@ -110,6 +121,8 @@ export const Search = () => {
 
     useEffect(() => {
         console.log('gameIdInfo: ' + gameIdInfo)
+
+
         if (gameIdInfo[0]) {
             (
                 async () => {
@@ -160,7 +173,7 @@ export const Search = () => {
                             {
                                 name.length > 0 && tier.length > 0 &&
                                 <div>
-                                    <Link to={
+                                    <Link className="logo-name-link" to={
                                         {
                                             pathname: '/search/userInfo/userMatchHistory',
                                             state: {
@@ -172,16 +185,29 @@ export const Search = () => {
                                     }
 
                                     >
-                                        <img src={`${API.GET_PROFILEICON}/${profileIconId}.png`} alt="profileIcon" style={{ width: '100px', height: '100px', borderRadius: '10px' }} />
-                                        <h2>{name}</h2>
+                                        <img className="logo-img" src={`${API.GET_PROFILEICON}/${profileIconId}.png`} alt="profileIcon" />
+                                        <span className="level">{level}</span>
+                                        <span className="name">{name}</span>
                                     </Link>
-                                    <h3>{level}</h3>
-                                    <img src={require(`../images/ranked-emblems/${tier}.png`)} alt="tier-emblem" style={{ width: '100px', height: '100px' }} />
-                                    <h3>{tier}</h3>
-                                    <h3>{`Win: ${wins} losses: ${losses} Rate: ${Math.round(wins / (wins + losses) * 100)}%`}</h3>
-                                    <h3>LP: {leaguePoints} LP</h3>
-                                    <h3>{rank}</h3>
-                                    <h3>{queueType}</h3>
+                                    <div className="detail-info">
+                                        <img className="emblem-img" src={require(`../images/ranked-emblems/${tier}.png`)} alt="tier-emblem" />
+                                        <div className="detail-parent">
+                                            <div className="detail">
+                                                <span className="tier">{tier}</span>
+
+                                                <span className="lp">LP: {leaguePoints} LP</span>
+                                                <span className="win-lost">{`${wins} W ${losses} L`}</span>
+                                                <span className="rank">{rank}</span>
+                                                <span className="queue-type">{queueType}</span>
+                                            </div>
+                                        </div>
+                                        <div className="circle">
+                                            {/* https://github.com/kevinsqi/react-circular-progressbar 여기 참고하면됨 */}
+                                            <CircularProgressbar strokeWidth="10" value={`${Math.round(wins / (wins + losses) * 100)}`} text={`${Math.round(wins / (wins + losses) * 100)}%`} className="percentage-circle"
+                                                styles={buildStyles({ textColor: 'white', pathColor: '#2E6DEB', trailColor: '#F05950' })}
+                                            />;
+                                        </div>
+                                    </div>
                                 </div>
                             }
                         </div>

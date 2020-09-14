@@ -1,10 +1,12 @@
 
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { API } from '../config';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchChamps, fetchRunes, fetchSpells } from '../actions';
+import { Accordion, Card, Button } from 'react-bootstrap';
+import { MatchedGameDetail } from './MatchedGameDetail';
 
 export const UserMatchHistory = () => {
     const region = useSelector(state => state.regionStore);
@@ -36,7 +38,7 @@ export const UserMatchHistory = () => {
     useEffect(() => {
         (
             async () => {
-                for (let i = 0; i < 20; i++) {
+                for (let i = 0; i < 10; i++) {
                     // server 측에 path 가 '/' 이곳으로 들어와서 프록시 서버를 통해서 정보를 호출한다.
                     const response = await fetch(`${API.GET_MATCH_DETAILS}/${gameIds[i]}?region=${region}`);
                     const data = await response.json();
@@ -117,6 +119,7 @@ export const UserMatchHistory = () => {
             };
             console.log(runesArr);
 
+            // 해당하는 룬 뽑는 함수
             const usedRunes = runesArr.map(rune => {
                 const obj = {};
                 for (const [key, value] of Object.entries(rune)) {
@@ -126,7 +129,7 @@ export const UserMatchHistory = () => {
             });
             console.log(usedRunes);
 
-
+            // 해당하는 스펠 뽑는 함수
             const usedSpells = spellsArr.map(spell => {
                 // console.log(Object.entries(spell));
                 const obj = {}
@@ -138,13 +141,19 @@ export const UserMatchHistory = () => {
             });
             console.log(usedSpells);
 
+            console.log(matchesInfo);
 
             for (let i = 0; i < 150; i++) {
                 for (let j = 0; j < 10; j++) {
                     if (Number(allChampsData[i].key) === summonerDetail[j].championId) {
                         console.log('같은거 있음')
+
                         champImages.push(
                             {
+                                createdGame: matchesInfo[j].gameCreation,
+                                gameDuration: matchesInfo[j].gameDuration,
+                                teams: matchesInfo[j].teams,
+                                gameId: matchesInfo[j].gameId,
                                 champImage: allChampsData[i].image.full,
                                 item0: summonerDetail[j].stats.item0,
                                 item1: summonerDetail[j].stats.item1,
@@ -178,36 +187,83 @@ export const UserMatchHistory = () => {
 
     }, [allChampsData, summonerDetail])
 
+    // 게임 언제 했는지 뽑아내는 함수
+    const getPlayGameDate = (unixTime) => {
+        const timeGap = new Date() - unixTime;
+        let stime = parseInt(timeGap / 1000);
+        const year = parseInt(86400 * (365.25));
+        const month = parseInt(86400 * 30.4375);
+        const day = 86400;
+        const hour = 3600;
+        const min = 60;
+
+        if (stime >= year) return parseInt(stime / year) + "년 전";
+        if (stime >= month) return parseInt(stime / month) + "달 전";
+        if (stime >= day) return parseInt(stime / day) + "일 전";
+        if (stime >= hour) return parseInt(stime / hour) + "시간 전";
+        return parseInt(stime / min) + "분 전";
+    }
+
+    // 게임 시간 뽑아내는 함수
+    const getPlayDuration = (duration) => {
+        if (duration >= 3600) {
+            const hours = Math.floor(duration / 3600);
+            const minutes = Math.floor((duration - 3600) / 60);
+            const seconds = duration - 3600 - (minutes * 60);
+            return (
+                `${hours}시간 ${minutes}분 ${seconds}초`
+            )
+        } else {
+            const minutes = Math.floor(duration / 60);
+            const seconds = duration - (minutes * 60);
+            return (
+                `${minutes} 분 ${seconds} 초`
+            )
+        }
+    }
+
     return (
         <>
+
             <div>
-                <h2>Match history page</h2>
                 {
+                    // allChampsData && allRunesData && allSpellsData &&
                     information.map((data, index) => {
                         return (
-                            <div key={index}>
-                                <span>{data.gameResult}</span>
-                                <img src={`${API.GET_CHAMPION_SQUARE_IMG}/${data.champImage}`} alt="images" />
-                                <span>Level: {data.level}</span>
-                                <img src={`${API.GET_ITEMS_IMG}/${data.item0}.png`} alt="images" />
-                                <img src={`${API.GET_ITEMS_IMG}/${data.item1}.png`} alt="images" />
-                                <img src={`${API.GET_ITEMS_IMG}/${data.item2}.png`} alt="images" />
-                                <img src={`${API.GET_ITEMS_IMG}/${data.item3}.png`} alt="images" />
-                                <img src={`${API.GET_ITEMS_IMG}/${data.item4}.png`} alt="images" />
-                                <img src={`${API.GET_ITEMS_IMG}/${data.item5}.png`} alt="images" />
-                                <img src={`${API.GET_ITEMS_IMG}/${data.item6}.png`} alt="images" />
-                                <img src={`${API.GET_SPELLS_IMG}/${data.spell1}.png`} alt="images" />
-                                <img src={`${API.GET_SPELLS_IMG}/${data.spell2}.png`} alt="images" />
-                                <span>Gold: {data.gold}</span>
-                                <span> KDA: {`${data.kills} / ${data.deaths} / ${data.assists}`}</span>
-                                <span> Rate: {data.rate}</span>
-                                <span> CS: {data.minionKillded}</span>
-                                <img src={`${API.GET_RUNES_IMG}/${data.mainRune}`} alt="images" />
-                                <img src={`${API.GET_RUNES_IMG}/${data.subRune}`} alt="images" />
+                            <Accordion key={index}>
+                                <Card>
+                                    <Card.Header>
+                                        <Accordion.Toggle as={Button} variant="link" eventKey={data.gameId}>
 
+                                            <span>{getPlayGameDate(data.createdGame)}</span>
+                                            <span>{getPlayDuration(data.gameDuration)}</span>
+                                            <span>{data.gameResult}</span>
+                                            <img src={`${API.GET_CHAMPION_SQUARE_IMG}/${data.champImage}`} alt="images" />
+                                            <span>Level: {data.level}</span>
+                                            <img src={`${API.GET_ITEMS_IMG}/${data.item0}.png`} alt="images" />
+                                            <img src={`${API.GET_ITEMS_IMG}/${data.item1}.png`} alt="images" />
+                                            <img src={`${API.GET_ITEMS_IMG}/${data.item2}.png`} alt="images" />
+                                            <img src={`${API.GET_ITEMS_IMG}/${data.item3}.png`} alt="images" />
+                                            <img src={`${API.GET_ITEMS_IMG}/${data.item4}.png`} alt="images" />
+                                            <img src={`${API.GET_ITEMS_IMG}/${data.item5}.png`} alt="images" />
+                                            <img src={`${API.GET_ITEMS_IMG}/${data.item6}.png`} alt="images" />
+                                            <img src={`${API.GET_SPELLS_IMG}/${data.spell1}.png`} alt="images" />
+                                            <img src={`${API.GET_SPELLS_IMG}/${data.spell2}.png`} alt="images" />
+                                            <span>Gold: {data.gold}</span>
+                                            <span> KDA: {`${data.kills} / ${data.deaths} / ${data.assists}`}</span>
+                                            <span> Rate: {data.rate}</span>
+                                            <span> CS: {data.minionKillded}</span>
+                                            <img src={`${API.GET_RUNES_IMG}/${data.mainRune}`} alt="images" />
+                                            <img src={`${API.GET_RUNES_IMG}/${data.subRune}`} alt="images" />
 
+                                        </Accordion.Toggle>
+                                    </Card.Header>
+                                    <Accordion.Collapse eventKey={data.gameId}>
+                                        <Card.Body><MatchedGameDetail clickedData={data} matchesInfo={matchesInfo[index]} allChampsData={allChampsData} allSpellsData={allSpellsData} allRunesData={allRunesData} /></Card.Body>
+                                    </Accordion.Collapse>
+                                </Card>
 
-                            </div>
+                            </Accordion>
                         )
                     })
                 }
@@ -218,3 +274,32 @@ export const UserMatchHistory = () => {
 }
 
 
+// {
+//     information.map((data, index) => {
+//         return (
+//             <div key={index}>
+//                 <span>{data.gameResult}</span>
+//                 <img src={`${API.GET_CHAMPION_SQUARE_IMG}/${data.champImage}`} alt="images" />
+//                 <span>Level: {data.level}</span>
+//                 <img src={`${API.GET_ITEMS_IMG}/${data.item0}.png`} alt="images" />
+//                 <img src={`${API.GET_ITEMS_IMG}/${data.item1}.png`} alt="images" />
+//                 <img src={`${API.GET_ITEMS_IMG}/${data.item2}.png`} alt="images" />
+//                 <img src={`${API.GET_ITEMS_IMG}/${data.item3}.png`} alt="images" />
+//                 <img src={`${API.GET_ITEMS_IMG}/${data.item4}.png`} alt="images" />
+//                 <img src={`${API.GET_ITEMS_IMG}/${data.item5}.png`} alt="images" />
+//                 <img src={`${API.GET_ITEMS_IMG}/${data.item6}.png`} alt="images" />
+//                 <img src={`${API.GET_SPELLS_IMG}/${data.spell1}.png`} alt="images" />
+//                 <img src={`${API.GET_SPELLS_IMG}/${data.spell2}.png`} alt="images" />
+//                 <span>Gold: {data.gold}</span>
+//                 <span> KDA: {`${data.kills} / ${data.deaths} / ${data.assists}`}</span>
+//                 <span> Rate: {data.rate}</span>
+//                 <span> CS: {data.minionKillded}</span>
+//                 <img src={`${API.GET_RUNES_IMG}/${data.mainRune}`} alt="images" />
+//                 <img src={`${API.GET_RUNES_IMG}/${data.subRune}`} alt="images" />
+
+
+
+//             </div>
+//         )
+//     })
+// }

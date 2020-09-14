@@ -6,12 +6,14 @@ import { fetchChamps } from '../actions';
 import { API } from '../config';
 
 export const UserMasteries = () => {
+    const USER_ID = 'user account id';
     const location = useLocation();
     const dispatch = useDispatch();
     const region = useSelector(state => state.regionStore);
     const { isLoading, champs } = useSelector(state => state.champStore)
     console.log(location);
-    const id = location.state.id;
+    // const id = location.state.id;
+    const idFormLocal = localStorage.getItem(USER_ID);
     const [masteryData, setMasteryData] = useState();
     const [allChampsData, setAllChampsData] = useState();
     const [champId, setChampId] = useState();
@@ -22,7 +24,9 @@ export const UserMasteries = () => {
         (
             async () => {
                 // server 측에 path 가 '/' 이곳으로 들어와서 프록시 서버를 통해서 정보를 호출한다.
-                const response = await fetch(`${API.GET_MASTERY}/${id}?region=${region}`);
+
+                const response = await fetch(`${API.GET_MASTERY}/${idFormLocal}?region=${region}`);
+                // console.log(`${API.GET_MASTERY}/${id}?region=${region}`);
                 const data = await response.json();
                 console.log(data);
                 setMasteryData(data);
@@ -43,11 +47,13 @@ export const UserMasteries = () => {
 
     useEffect(() => {
         if (masteryData) {
+            console.log('mastery')
+            console.log(masteryData)
             console.log(allChampsData)
             setChampId(masteryData.map((data) => data.championId));
 
         }
-    }, [masteryData]);
+    }, [allChampsData, masteryData]);
 
     useEffect(() => {
         if (champId) {
@@ -114,7 +120,6 @@ export const UserMasteries = () => {
 
     return (
         <>
-            <h2>user masteries page</h2>
             <div>
                 {
                     masteryLastInfo &&

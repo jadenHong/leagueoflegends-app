@@ -19,28 +19,33 @@ export const Champions = () => {
 
     return (
         // http://ddragon.leagueoflegends.com/cdn/10.16.1/img/champion/
-        <div>
-            {champs && champs.map((data, index) => {
-                return (
+        <div className="champion-page">
+            <div className='champions'>
+                {champs && champs.map((data, index) => {
+                    return (
 
-                    <Link key={index} to={{
-                        pathname: `/champion/detail/${data.name}`,
-                        state: {
-                            img: data.image.full,
-                            name: data.name,
-                            tags: data.tags,
-                            title: data.title,
-                            desc: data.blurb,
-                            stats: data.stats,
-                        }
-                    }}>
-                        {/* http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aatrox_3.jpg 스킨 넣을때 */}
-                        <h2>{data.name}</h2>
-                        <img src={`${API.GET_CHAMPION_SQUARE_IMG}/${data.image.full}`} alt="images" />
-                    </Link>
+                        <Link key={index} to={{
+                            pathname: `/champion/detail/${data.name}`,
+                            state: {
+                                img: data.image.full,
+                                name: data.name,
+                                tags: data.tags,
+                                title: data.title,
+                                desc: data.blurb,
+                                stats: data.stats,
+                            }
+                        }}>
+                            {/* http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aatrox_3.jpg 스킨 넣을때 */}
+                            <div className='champion'>
+                                <img src={`${API.GET_CHAMPION_SQUARE_IMG}/${data.image.full}`} alt="images" />
+                                <h2>{data.name}</h2>
+                            </div>
+                        </Link>
 
-                )
-            })}
+                    )
+                })}
+            </div>
+
         </div>
     )
 }

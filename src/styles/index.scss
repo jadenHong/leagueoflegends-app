@@ -2,9 +2,13 @@
 @import './components/Menu.scss';
 @import './components/Footer.scss';
 @import './components/Ranks-Paginate.scss';
+@import "~bootstrap/scss/bootstrap";
+@import './components/Champions.scss';
 
 *{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    // background-color: black;
+    // color: white;
 }

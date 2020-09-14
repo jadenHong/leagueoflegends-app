@@ -1,18 +1,25 @@
 .nav-menu{
     display: flex;
     justify-content: space-between;
-    padding: 35px;
+    padding: 25px;
+    color: white;
+    img{
+        width: 80px;
+
+    }
 }
 
 .logo-title{
     font-size: 25px;
     display: flex;
-    padding: 7px;
+    
 
 }
 .logo-title .title{
     margin-left: 15px;
     text-decoration: none;
+    color: rgb(221, 97, 97);
+    margin-top: 20px;
 }
 
 .navbar ul{
@@ -22,6 +29,10 @@
 .navbar ul a{
     text-decoration: none;
     margin-right: 10px;
+    color: rgb(228, 222, 222);
+}
+.navbar ul a:hover{
+    color: aquamarine;
 }
 
 .navbar ul li{
@@ -39,4 +50,24 @@
     position: absolute;
     top: 10px;
     right: 30px;
+}
+.logo-img{
+    display: flex;
+    justify-content: center;
+}
+.logo-img img{
+    width: 500px;
+
+}
+
+.select-region{
+    font-size: 13px;
+    background-color: #333333;
+    color: rgb(228, 222, 222);
+    border: 2px solid white;
+    font-weight: bolder;
+    border-radius: 10px;
+}
+.user-info{
+    color: rgb(255, 208, 0);
 }

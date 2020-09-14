@@ -2,15 +2,16 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 export const UserInfo = () => {
 
+    const USER_ID = 'user account id';
     const location = useLocation();
     console.log(location.state)
     const { id, accountId } = location.state;
     const [...gameIds] = location.state.gameIdInfo;
+
     return (
         <>
             <div>
                 {console.log(id)}
-                <h2>user information</h2>
                 <Link to={
                     {
                         pathname: '/search/userInfo/userMatchHistory',
@@ -25,7 +26,6 @@ export const UserInfo = () => {
                         state: {
                             gameIdInfo: gameIds,
                             accountId: accountId,
-                            id: id,
                         }
                     }}>Masteries</Link>
                 <Link to={

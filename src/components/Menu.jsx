@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { GiOverkill } from "react-icons/gi";
-import mainlogo from '../images/league-logo.jpg'
+// import { GiOverkill } from "react-icons/gi";
+import penguinLogo from '../images/penguin.png'
+import mainlogo from '../images/lol-logo.png'
 import { FaUserAlt } from "react-icons/fa";
 import { useDispatch } from 'react-redux';
 import { changeRegion } from '../actions';
@@ -20,8 +21,8 @@ export const Menu = () => {
 
             <div className="nav-menu">
                 <div className="logo-title">
-                    <GiOverkill />
-                    <Link to="/" className="title"><h3>League of Legends</h3></Link>
+                    <img src={penguinLogo} alt="penguin" />
+                    <Link to="/" className="title"><h3>popo.gg</h3></Link>
                 </div>
                 <div className="navbar">
                     <ul>
