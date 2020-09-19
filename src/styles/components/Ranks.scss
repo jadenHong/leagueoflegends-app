@@ -1,0 +1,31 @@
+
+.rank-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .rank-table {
+        width: 800px;
+        text-align: center;
+        color: white;
+
+        .wins {
+            color: blue;
+        }
+
+        .losses {
+            color: red;
+        }
+
+        .rates {
+            color: yellow;
+        }
+
+        tbody img {
+            width: 50px;
+        }
+
+    }
+
+
+}

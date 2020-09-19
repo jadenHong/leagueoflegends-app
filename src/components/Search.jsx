@@ -12,7 +12,7 @@ export const Search = () => {
     const region = useSelector(state => state.regionStore);
     const [summonerID, setSummonerID] = useState('');
     const [errorMsg, setErrorMsg] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [{ id, name, profileIconId, level, accountId }, setSummonerInfo] = useState({
         id: undefined,
         name: '',
@@ -36,12 +36,12 @@ export const Search = () => {
         const newInput = e.target.value;
         setSummonerID(newInput);
     }
-    // https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/
+    // https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/댕청잇
     const handleClick = async () => {
         if (summonerID.length > 0) {
             const response = await fetch(`${API.GET_SUMMONER_BY_NAME}/${summonerID}?region=${region}`);
             const data = await response.json();
-            console.log(data.status);
+            console.log(summonerID);
             console.log(data);
             if (data.status === undefined) { // data를 뽑아오면 status 가 나타나지 않고 data가 없을경우에 data.status.status_code: 404 이런식으로 리턴 된다.
                 console.log('data 있음')
@@ -71,7 +71,6 @@ export const Search = () => {
     useEffect(() => {
         if (!errorMsg)
             console.log('loading')
-        setIsLoading(true);
     }, [id])
 
     //두번 setState를 불러 오게 되면 랜더링 때문에 문제가 발생한다. 그래서 의존성배열에 id값을 두고 id값이 변하게 되면 fetch를 통해 setState 를 하게 된다.
@@ -127,11 +126,14 @@ export const Search = () => {
             (
                 async () => {
                     console.log('gameId: ' + gameId);
+                    console.log(profileIconId)
                     const response = await fetch(`${API.GET_MATCH_DETAILS}/${gameIdInfo[1]}?region=${region}`);
                     const data = await response.json();
                     console.log(data);
                 }
             )();
+
+            setIsLoading(false);
         }
     }, [gameIdInfo]);
 
@@ -140,7 +142,6 @@ export const Search = () => {
     useEffect(() => {
         focusRef.current.focus();
     }, [])
-
 
 
     return (
@@ -165,15 +166,18 @@ export const Search = () => {
 
             {!errorMsg ?
                 (
-                    !isLoading ?
+                    // 이렇게 하면 반드시 id가 존재하고 isLoading 이 true 인 경우에 아래 식을 실행 시키도록 한다 즉, 검색어에 유저의 이름을 입력하고 검색을 해야 loading이나 결과가 나타난다.
+                    id && isLoading ?
 
-                        <Loading />
+                        <div className="loading" >
+                            <Loading />
+                        </div>
                         :
                         <div className="summoner-info">
                             {
                                 name.length > 0 && tier.length > 0 &&
                                 <div>
-                                    <Link className="logo-name-link" to={
+                                    <Link className="logo-name-link link" to={
                                         {
                                             pathname: '/search/userInfo/userMatchHistory',
                                             state: {
@@ -216,13 +220,7 @@ export const Search = () => {
                 <div>There is no summoner</div>
             }
 
-
         </div>
-
-
-
-
-
 
     )
 }

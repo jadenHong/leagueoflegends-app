@@ -4,13 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { fetchChamps } from '../actions';
 import { API } from '../config';
+import { Loading } from './Loading';
 
 export const UserMasteries = () => {
     const USER_ID = 'user account id';
     const location = useLocation();
     const dispatch = useDispatch();
     const region = useSelector(state => state.regionStore);
-    const { isLoading, champs } = useSelector(state => state.champStore)
+    const { champs } = useSelector(state => state.champStore)
     console.log(location);
     // const id = location.state.id;
     const idFormLocal = localStorage.getItem(USER_ID);
@@ -20,6 +21,7 @@ export const UserMasteries = () => {
     const [masteryChamps, setMasteryChamps] = useState();
     const masteryArr = [];
     const [masteryLastInfo, setMasteryLastInfo] = useState();
+    const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         (
             async () => {
@@ -58,20 +60,6 @@ export const UserMasteries = () => {
     useEffect(() => {
         if (champId) {
             let arr = [];
-
-            // champId.map((data) => {
-            //     const obj = {};
-            //     for (let [key, value] of Object.entries(allChampsData)) {
-            //         // console.log(value)
-            //         obj[key] = allChampsData.find((data) => data === Number(value.key));
-            //     }
-
-            //     // setMasteryChamps(arr);
-            //     arr.push(obj);
-            // })
-            // console.log(arr)
-
-
             champId.map((data) => {
                 const obj = {};
                 for (let value of allChampsData) {
@@ -86,17 +74,6 @@ export const UserMasteries = () => {
 
                 return setMasteryChamps(arr);
             })
-
-            //     champId.map((data) => {
-
-            //         for (let value of allChampsData) {
-
-            //             if (data === Number(value.key)) {
-            //                 arr.push(value.id);
-            //             }
-            //         }
-            //         setMasteryChamps(arr);
-            //     })
         }
     }, [champId])
 
@@ -114,29 +91,38 @@ export const UserMasteries = () => {
             }
             console.log(masteryArr);
             setMasteryLastInfo(masteryArr);
+            setIsLoading(false)
         }
 
     }, [masteryChamps])
 
     return (
         <>
-            <div>
-                {
-                    masteryLastInfo &&
-                    masteryLastInfo.map((data, index) => {
-                        return (
-                            <div key={index}>
-                                <img src={`${API.GET_CHAMPION_SQUARE_IMG}/${data.championId}.png`} alt="champImage" />
-                                <span>Name: {data.championName}</span>
-                                <span> Level: {data.championLevel}</span>
-                                <span> Points: {data.championPoints}</span>
+            {
+                isLoading ?
+                    <div className="loading" >
+                        <Loading />
+                    </div>
+                    :
+                    <div className="mastery-page">
+                        {
+                            masteryLastInfo &&
+                            masteryLastInfo.map((data, index) => {
+                                return (
+                                    <div key={index} className="mastery-detail">
+                                        <div className="img-name">
+                                            <img src={`${API.GET_CHAMPION_SQUARE_IMG}/${data.championId}.png`} alt="champImage" />
+                                            <span>{data.championName}</span>
+                                        </div>
+                                        <span className="level">{data.championLevel} LV</span>
+                                        <span className="points">{data.championPoints.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} P</span>
 
-
-                            </div>
-                        )
-                    })
-                }
-            </div>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+            }
         </>
     )
 }

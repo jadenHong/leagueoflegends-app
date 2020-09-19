@@ -1,0 +1,18 @@
+.user-nav{
+    display: flex;
+    justify-content: center;
+
+    .user-nav{
+        color: white;
+    }
+    .span{
+        color: white;
+        margin: 10px;
+        padding: 15px;
+        font-size: 20px;
+        background: -webkit-linear-gradient(rgb(255, 255, 255), rgb(218, 73, 140));
+    font-weight: bolder;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    }
+}

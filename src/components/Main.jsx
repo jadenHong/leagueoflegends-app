@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { FaSearch } from "react-icons/fa";
 // import { API } from '../config';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchChamps } from '../actions';
-import { Link } from 'react-router-dom'
-
 
 export const Main = () => {
 
@@ -15,8 +12,8 @@ export const Main = () => {
 
 
 
+
     useEffect(() => {
-        console.log('dispatch 실행')
         dispatch(fetchChamps());
         console.log('dispatch 끝')
     }, [dispatch])
@@ -27,7 +24,6 @@ export const Main = () => {
 
     return (
         <div className="search">
-
             {
                 !isLoading &&
                 console.log(champsData)}

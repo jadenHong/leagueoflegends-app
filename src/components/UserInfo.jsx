@@ -10,32 +10,32 @@ export const UserInfo = () => {
 
     return (
         <>
-            <div>
+            <div className="user-nav">
                 {console.log(id)}
-                <Link to={
+                <Link className="link" to={
                     {
                         pathname: '/search/userInfo/userMatchHistory',
                         state: {
                             gameIdInfo: gameIds,
                             accountId: accountId,
                         }
-                    }}>Match History</Link>
-                <Link to={
+                    }}><span className='span'>Match History</span></Link>
+                <Link className="link" to={
                     {
                         pathname: '/search/userInfo/userMasteries',
                         state: {
                             gameIdInfo: gameIds,
                             accountId: accountId,
                         }
-                    }}>Masteries</Link>
-                <Link to={
+                    }}><span className='span'>Masteries</span></Link>
+                <Link className="link" to={
                     {
                         pathname: '/search/userInfo/userInGame',
                         state: {
                             gameIdInfo: gameIds,
                             accountId: accountId,
                         }
-                    }}>In Game</Link>
+                    }}><span className='span'>In Game</span></Link>
 
             </div>
 

@@ -1,0 +1,25 @@
+.mastery-page{
+    background-color: rgb(23, 68, 105);
+        width: 600px;
+        color: white;
+        margin: 20px auto;
+        padding: 10px;
+        border-radius: 20px;
+}
+.mastery-detail{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        border-bottom: 2px solid black;
+    .img-name{
+        width: 200px;
+        img{
+            width: 50px;
+            margin: 5px;
+        }
+    }
+        .level, .points{
+        height: 60px;
+        line-height: 60px;
+        }
+}

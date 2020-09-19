@@ -22,13 +22,13 @@ export const Menu = () => {
             <div className="nav-menu">
                 <div className="logo-title">
                     <img src={penguinLogo} alt="penguin" />
-                    <Link to="/" className="title"><h3>popo.gg</h3></Link>
+                    <Link to="/" className="title link"><h3>popo.gg</h3></Link>
                 </div>
                 <div className="navbar">
                     <ul>
-                        <Link to="/search"><li>Search</li></Link>
-                        <Link to="/champions"><li>Champions</li></Link>
-                        <Link to="/ranks"><li>Ranks</li></Link>
+                        <Link className="link" to="/search"><li>Search</li></Link>
+                        <Link className="link" to="/champions"><li>Champions</li></Link>
+                        <Link className="link" to="/ranks"><li>Ranks</li></Link>
                     </ul>
                 </div>
             </div>

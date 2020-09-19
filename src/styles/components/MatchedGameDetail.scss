@@ -1,0 +1,167 @@
+.matched-details{
+    border-radius: 10px;
+}
+
+
+.win-defeat1{
+    color: blue;
+}
+
+.win-defeat2{
+color: red;
+}
+
+.team{
+    color: white;
+}
+// 배경화면 투명도 조절
+.win {
+    position: relative;
+    z-index: 1;
+
+
+}
+
+.win::after {
+    background-color: rgb(23, 51, 128);
+    border-radius:0 0;
+    top: 0;
+    left: 0;
+    position: absolute;
+    background-size: 100%;
+    opacity: 0.8 !important;
+    filter: alpha(opacity=50);
+    z-index: -1;
+    content: "";
+    width: 100%;
+    height: 100%;
+
+
+}
+
+// 배경화면 투명도 조절
+.lost {
+    position: relative;
+    z-index: 1;
+
+
+}
+
+.lost::after {
+    background-color: rgb(160, 20, 20);
+    top: 0;
+    left: 0;
+    position: absolute;
+    background-size: 100%;
+    opacity: 0.8 !important;
+    filter: alpha(opacity=50);
+    z-index: -1;
+    content: "";
+    width: 100%;
+    height: 100%;
+
+}
+
+
+.users-info {
+    display: flex;
+    flex-direction: row;
+    // justify-content: space-between;
+    font-size: 10px;
+
+    .first-part {
+        display: flex;
+        flex-direction: row;
+        width: 250px;
+    }
+
+    .first-part img {
+        width: 40px;
+        margin: 1px;
+
+    }
+
+    .spells img {
+        width: 20px;
+    }
+
+    .runes img {
+        width: 20px;
+        background-color: black;
+        border-radius: 50%;
+    }
+
+    .id-level {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-left: 30px;
+        color: white;
+
+        .level {
+            display: flex;
+        }
+    }
+
+    .second-part {
+        display: flex;
+        flex-direction: column;
+        width: 150px;
+
+        .kda {
+            .kills {
+                color: blue;
+            }
+
+            .deaths {
+                color: red;
+            }
+
+            .assists {
+                color: yellow;
+            }
+
+        }
+
+
+    }
+
+    .second-part>span {
+        color: darkgray;
+    }
+
+
+
+
+    .third-part {
+        display: flex;
+        flex-direction: column;
+        width: 200px;
+
+        .cs {
+            color: white;
+        }
+
+        .gold {
+            color: gold;
+        }
+    }
+
+
+
+    .forth-part {
+        width: 200px;
+        // display: flex;
+        // flex-wrap: wrap;
+
+    }
+
+    .forth-part img {
+        width: 20px;
+        height: 20px;
+        margin-left: 1px;
+        border-radius: 5px;
+    }
+
+
+}

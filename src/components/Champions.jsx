@@ -24,9 +24,10 @@ export const Champions = () => {
                 {champs && champs.map((data, index) => {
                     return (
 
-                        <Link key={index} to={{
+                        <Link className="link" key={index} to={{
                             pathname: `/champion/detail/${data.name}`,
                             state: {
+                                id: data.id,
                                 img: data.image.full,
                                 name: data.name,
                                 tags: data.tags,
