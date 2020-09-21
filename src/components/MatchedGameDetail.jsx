@@ -57,7 +57,7 @@ export const MatchedGameDetail = ({ matchesInfo, clickedData, allChampsData, all
 
 
         return (
-            <div className="matched-details">
+            <div className="matched-details" key={index}>
                 <div key={index} className={data.stats.win ? 'win' : 'lost'}>
                     {index === 0 && <div className="win-defeat1">{data.stats.win ? 'WIN' : 'DEFEAT'}<span className="team">BLUE</span></div>}
                     {index === 5 && <div className="win-defeat2">{data.stats.win ? 'WIN' : 'DEFEAT'}<span className="team">RED</span></div>}

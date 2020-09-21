@@ -4,6 +4,7 @@
     width: 1000px;
     margin: 20px auto;
     border-radius: 20px;
+    padding: 20px;
 }
 
 .accordion-page {
@@ -14,7 +15,6 @@
     margin: 0 auto;
     // background-color: rgb(28, 28, 56);
     border-radius: 10px;
-    padding: 20px 0 20px 0;
 
     .accordion {
         text-align: center;
@@ -24,7 +24,6 @@
         .card-header {
             position: relative;
             z-index: 1;
-
 
         }
 
