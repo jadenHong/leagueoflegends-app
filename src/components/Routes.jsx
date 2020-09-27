@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, BrowserRouter } from 'react-router-dom';
 import { Menu, Footer } from '.';
 
-import { Main, Search, Champions, ChampionDetail, Ranks, UserInfo, UserMatchHistory } from '.';
+import { Main, Search, Champions, ChampionDetail, Ranks, Chat, UserInfo, UserMatchHistory } from '.';
 import { MatchedGameDetail } from './MatchedGameDetail';
 import { UserInGame } from './UserInGame';
 import { UserMasteries } from './UserMasteries';
@@ -17,6 +17,7 @@ export default () => {
                 <Route path="/champions" component={Champions} />
                 <Route path="/champion/detail/:name" component={ChampionDetail} />
                 <Route path="/ranks" component={Ranks} />
+                <Route path="/chat" component={Chat} />
                 <Route path="/search/userInfo" component={UserInfo} />
                 <Route path='/search/userInfo/userMatchHistory' component={UserMatchHistory} />
                 <Route path='/search/userInfo/userMasteries' component={UserMasteries} />

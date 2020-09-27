@@ -218,7 +218,7 @@ export const Search = () => {
                         </div>
                 )
                 :
-                <div>There is no summoner</div>
+                <div className="summoner-error">This summoner is not registered at POPO.GG.<br /> Please check spelling and region</div>
             }
 
         </div>

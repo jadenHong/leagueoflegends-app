@@ -1,9 +1,31 @@
 // redux 구현하기 위해서 redux, react-redux, redux-logger 설치해줌.
-
+import { USER_BASE } from '../config';
 export const CHANGE_REGION = 'CHANGE_REGION';
 export const FETCH_CHAMPS = 'FETCH_CHAMPS';
 export const FETCH_SPELLS = 'FETCH_SPELLS';
 export const FETCH_RUNES = 'FETCH_RUNES';
+export const FETCH_LOGIN = 'FETCH_LOGIN';
+
+
+export const fetchLogin = (userInput) => {
+    return {
+        type: FETCH_LOGIN,
+        payload: new Promise(async (resolve, reject) => {
+            try {
+                const data = await (await fetch(`${USER_BASE}/login`, {
+                    headers: { 'Content-Type': 'application/json' },
+                    method: 'POST',
+                    body: JSON.stringify(userInput),
+                })).json();
+                console.log(data);
+                resolve(data);
+            } catch (error) {
+                reject(error.message);
+            }
+        })
+
+    }
+}
 
 export const changeRegion = (region) => {
     return {

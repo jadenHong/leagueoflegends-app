@@ -1,5 +1,5 @@
 export const API_BASE = 'http://localhost:7779';
-
+export const USER_BASE = 'http://localhost:7779/user';
 export const API = {
     GET_SUMMONER_BY_NAME: `${API_BASE}/lol/summoner/v4/summoners/by-name`,
     GET_SUMMONER_DETAIL_BY_ID: `${API_BASE}/lol/league/v4/entries/by-summoner`,

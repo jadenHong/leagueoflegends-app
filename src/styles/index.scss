@@ -10,7 +10,9 @@
 @import './components/UserMasteries.scss';
 @import './components/MatchedGameDetail.scss';
 @import './components/ChampionDetail.scss';
-
+@import './components/SignInPage.scss';
+@import './components/SignUpPage.scss';
+@import './components/Main.scss';
 
 *{
     padding: 0;
@@ -22,12 +24,8 @@
 body, html{
     cursor: url('../images/mouse-cursor.png'), auto;
 
-    .title{
+    .title, .link, .user-info{
         cursor: url('../images/mouse-cursor-click.png'), auto;
-    }
-
-    .link{
-        cursor: url('../images/mouse-cursor-click.png'), auto ;
     }
 }
 

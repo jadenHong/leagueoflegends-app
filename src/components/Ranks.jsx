@@ -20,6 +20,7 @@ export const Ranks = () => {
     useEffect(() => {
         setUsers([]);
         setIsLoading(true);
+        setUrlCount(0);
         getURLs();
     }, [region])
 
@@ -55,7 +56,7 @@ export const Ranks = () => {
                 URLs.push(url);
             }
         }
-        // console.log(URLs)
+        console.log(URLs)
         setURLs(URLs);
     }
 

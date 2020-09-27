@@ -1,0 +1,68 @@
+.login-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // margin-top: 80px;
+
+    .login h2{
+        font-size: 60px;;
+    }
+
+    .login{
+        display: flex;
+        flex-direction: column;
+    }
+
+    input{
+        font-size: 25px;
+        margin-bottom: 10px;
+        box-shadow: 4px 4px;
+    }
+    
+    button{
+        font-size: 20px;
+        margin-top: 5px;
+        background-color: rgb(89, 236, 89);
+        border: 0;
+        outline: none;
+        padding: 5px;
+        border-radius: 10px;
+        color: white;
+        cursor: pointer;
+        width: 100px;
+    }
+
+    .button-section{
+        display: flex;
+        justify-content: space-between;
+    }       
+    
+    .signup{
+        
+        background-color: rgb(95, 95, 230);
+        padding: 3px;
+        border-radius: 10px;
+        width: 100px;
+        margin-left: 15px;
+    }
+    .signup-link{
+        text-decoration: none;
+        color: white;
+    }
+
+    .success-page{
+        margin-top: 30px;
+        h2{
+            font-size: 55px;
+            margin-bottom: 10px;
+        }
+        .link-board{
+            background-color: rgb(255, 46, 168);
+            color: white;
+            text-decoration: none;
+            padding: 5px;
+            border-radius: 10px;
+        }
+    }
+
+}

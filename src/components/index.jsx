@@ -12,3 +12,7 @@ export * from './UserMatchHistory';
 export * from './UserMasteries';
 export * from './UserInGame';
 export * from './MatchedGameDetail';
+export * from './LoadMore';
+export * from './SignInPage';
+export * from './SignUpPage';
+export * from './Chat';

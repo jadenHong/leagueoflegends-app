@@ -135,18 +135,14 @@ body {
     margin-top: 50px;
     margin-left: 20px;
 }
-
-
 }
 
-
-
-/*Resize the wrap to see the search bar change!*/
 .wrap {
-    // position: absolute;
-    // top: 50%;
-    // left: 50%;
-    // transform: translate(-50%, -50%);
+    .summoner-error{
+        color: white;
+        text-align: center;
+        margin-bottom: 25px;
+    }
 }
 
 
